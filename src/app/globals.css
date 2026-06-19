@@ -7,54 +7,54 @@
 
 @layer base {
   :root {
-    /* Explonix Palette: Digital Ocean (Icy White, Slate, Electric Indigo) */
-    --background: 210 40% 98%; /* Icy White / Gris muy claro azulado */
-    --foreground: 222 47% 11%; /* Deep Slate / Azul marino casi negro */
-    --card: 0 0% 100%; /* Blanco puro */
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    /* HorizonTrip Palette: Selva & Playa */
+    --background: 43 33% 96%; /* Sand / Blanco Arena Cálido */
+    --foreground: 152 65% 10%; /* Deep Jungle / Verde oscuro muy elegante */
+    --card: 0 0% 100%; 
+    --card-foreground: 152 65% 10%;
+    --popover: 43 33% 96%;
+    --popover-foreground: 152 65% 10%;
     
-    /* Electric Indigo (#6366F1) - Color de acción principal */
-    --primary: 239 84% 67%; 
+    /* Emerald/Turquoise - Color de acción principal */
+    --primary: 173 80% 36%; 
     --primary-foreground: 0 0% 100%;
     
-    /* Vivid Cyan (#06B6D4) - Para acentos secundarios */
-    --secondary: 189 94% 43%; 
-    --secondary-foreground: 222 47% 11%;
+    /* Warm Sun / Dorado - Para acentos secundarios */
+    --secondary: 35 92% 55%; 
+    --secondary-foreground: 152 65% 10%;
     
-    --muted: 214 32% 91%;
-    --muted-foreground: 215 16% 47%; /* Gris azulado para textos secundarios */
+    --muted: 150 10% 90%;
+    --muted-foreground: 152 20% 40%; /* Verde grisáceo para textos secundarios */
     
-    --accent: 189 94% 43%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 173 80% 36%;
+    --accent-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 43 33% 96%;
     
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 239 84% 67%;
+    --border: 150 15% 85%;
+    --input: 150 15% 85%;
+    --ring: 173 80% 36%;
 
-    --radius: 1rem; 
+    /* Bordes más sutiles para un look orgánico */
+    --radius: 0.75rem; 
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 15%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 15%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 239 84% 75%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 189 94% 50%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 222 47% 20%;
-    --muted-foreground: 215 20% 65%;
-    --border: 222 47% 20%;
-    --input: 222 47% 20%;
-    --ring: 239 84% 75%;
+    /* Mantenemos una versión oscura pero basada en tonos bosque profundo */
+    --background: 152 65% 10%;
+    --foreground: 43 33% 96%;
+    --card: 152 60% 14%;
+    --card-foreground: 43 33% 96%;
+    --primary: 173 80% 45%;
+    --primary-foreground: 152 65% 10%;
+    --secondary: 35 92% 60%;
+    --secondary-foreground: 152 65% 10%;
+    --muted: 152 40% 20%;
+    --muted-foreground: 150 20% 70%;
+    --border: 152 40% 20%;
+    --input: 152 40% 20%;
+    --ring: 173 80% 45%;
   }
 }
 
@@ -64,38 +64,38 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Archivo', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    @apply tracking-tight;
+    font-family: 'Archivo', sans-serif;
+    @apply tracking-tighter;
   }
 }
 
 @layer utilities {
   .glass-panel {
-    @apply bg-white/60 backdrop-blur-xl border border-white/60 shadow-[0_4px_24px_rgb(0,0,0,0.02)];
+    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-sm;
   }
   .dark .glass-panel {
-    @apply bg-slate-900/50 border-slate-700/50 shadow-[0_4px_24px_rgb(0,0,0,0.2)];
+    @apply bg-foreground/50 border-white/10 shadow-xl;
   }
   
-  .text-gradient-cool {
+  .text-gradient-earth {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
   }
 
-  .animate-fade-up {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  .animate-reveal {
+    animation: reveal 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes reveal {
+  from { opacity: 0; clip-path: inset(100% 0 0 0); transform: translateY(20px); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+/* Scrollbar Orgánico */
+::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary)); }

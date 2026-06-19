@@ -1,85 +1,83 @@
 "use client";
 import { useLocale } from 'next-intl';
 import { Button } from "@/components/ui/button";
-import { Check, PlaneTakeoff } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { T } from "@/components/T";
 
 export function Pricing() {
   const locale = useLocale();
+
+  const benefits = [
+    {
+      title: "Cero paquetes prefabricados",
+      description: "Diseño de ruta inteligente que se adapta exactamente al ritmo y los intereses que definas."
+    },
+    {
+      title: "Arquitectura de presupuesto",
+      description: "Tú defines el rango. Nosotros maximizamos cada centavo para garantizar el estándar Horizon."
+    },
+    {
+      title: "Concierge Dedicado 24/7",
+      description: "Un asesor experto monitoreando tu viaje en tiempo real, desde el despegue hasta el retorno."
+    },
+    {
+      title: "Transparencia Total",
+      description: "Sin tarifas ocultas ni sorpresas en el destino. Todo debidamente estructurado desde el día uno."
+    }
+  ];
+
   return (
-    <section id="precios" className="py-24 lg:py-32 bg-background relative overflow-hidden">
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+    <section id="precios" className="py-24 lg:py-32 bg-background relative">
+      <div className="container mx-auto px-6 lg:px-12 max-w-screen-xl">
         
-        {/* Layout Asimétrico 60/40 */}
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-8">
+        {/* Layout en Grid: Texto fijo a la izquierda, scroll de lista a la derecha */}
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           
-          {/* Lado Izquierdo: Tipografía Masiva */}
-          <div className="w-full lg:w-7/12 space-y-8">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-primary/20 bg-primary/5">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                <T>Viajes a Tu Medida</T>
-              </span>
-            </div>
-            
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9]">
-              <T>Tu viaje.</T><br/>
-              <T>Tus reglas.</T><br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">
-                <T>Un solo plan.</T>
-              </span>
+          {/* Columna Izquierda: Sticky Header */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32 space-y-8">
+            <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-[0.9] text-foreground">
+              <T>La Firma</T><br/>
+              <span className="font-light italic text-primary"><T>HorizonTrip.</T></span>
             </h2>
             
-            <p className="text-xl text-muted-foreground font-medium max-w-lg leading-relaxed">
-              <T>Cada viajero es único. Por eso eliminamos los paquetes rígidos. Creamos experiencias 100% personalizadas que se adaptan a tus gustos, tiempos y presupuesto.</T>
+            <p className="text-lg text-muted-foreground font-medium max-w-md leading-relaxed">
+              <T>Elevamos el estándar. No vendemos boletos ni empaquetamos destinos; curamos y orquestamos cada aspecto de tu viaje para que tu única preocupación sea disfrutar.</T>
             </p>
+
+            <Button asChild className="rounded-full bg-foreground text-background hover:bg-primary h-16 px-10 text-sm tracking-widest uppercase font-bold transition-all shadow-xl group w-full sm:w-auto">
+              <Link href={`/${locale}/cotizar`}>
+                <T>Iniciar Diseño de Ruta</T>
+                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </Link>
+            </Button>
           </div>
 
-          {/* Lado Derecho: The "Boarding Pass" Ticket */}
-          <div className="w-full lg:w-5/12">
-            <div className="bg-slate-900 rounded-[2rem] flex flex-col relative shadow-2xl shadow-primary/20 overflow-hidden transform lg:-rotate-2 hover:rotate-0 transition-transform duration-500">
-              
-              {/* Ticket Top */}
-              <div className="p-8 md:p-10 bg-gradient-to-br from-slate-900 to-slate-800 relative">
-                <div className="absolute top-0 right-0 p-8 opacity-10">
-                  <PlaneTakeoff className="w-32 h-32 text-cyan-400" />
+          {/* Columna Derecha: Lista Desnuda (Sin Tarjetas) */}
+          <div className="lg:col-span-7 flex flex-col">
+            {benefits.map((item, i) => (
+              <div 
+                key={i} 
+                className="group border-t border-foreground/10 py-10 flex flex-col sm:flex-row gap-6 sm:gap-12 items-start hover:border-primary transition-colors"
+              >
+                {/* Número Tipográfico Gigante */}
+                <span className="text-5xl font-serif text-foreground/10 group-hover:text-primary transition-colors leading-none">
+                  0{i + 1}
+                </span>
+                
+                {/* Contenido */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-black text-foreground tracking-tight">
+                    <T>{item.title}</T>
+                  </h3>
+                  <p className="text-muted-foreground font-medium leading-relaxed max-w-md">
+                    <T>{item.description}</T>
+                  </p>
                 </div>
-                <h3 className="text-3xl font-black text-white mb-2"><T>Pase Explonix</T></h3>
-                <p className="text-cyan-400 font-bold uppercase tracking-wider text-sm"><T>Servicio Personalizado</T></p>
               </div>
-
-              {/* Perforation Line */}
-              <div className="flex items-center px-4 -my-4 relative z-10">
-                <div className="w-8 h-8 rounded-full bg-background -ml-8" />
-                <div className="flex-1 border-t-2 border-dashed border-white/20" />
-                <div className="w-8 h-8 rounded-full bg-background -mr-8" />
-              </div>
-
-              {/* Ticket Bottom */}
-              <div className="p-8 md:p-10 bg-slate-900">
-                <ul className="space-y-5 mb-10">
-                  {[
-                    "Diseño de ruta inteligente",
-                    "Precio ajustado a tu presupuesto",
-                    "Asignación de asesores especializados",
-                    "Transparencia total - Impuestos incluidos"
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-4 text-sm font-bold text-slate-300">
-                      <Check className="w-5 h-5 text-cyan-400 shrink-0" />
-                      <T>{item}</T>
-                    </li>
-                  ))}
-                </ul>
-
-                <Button asChild className="w-full rounded-xl h-16 text-lg font-black bg-cyan-400 text-slate-900 hover:bg-white transition-colors shadow-lg shadow-cyan-400/20">
-                  <Link href={`/${locale}/cotizar`}>
-                    <T>Comenzar a Cotizar</T>
-                  </Link>
-                </Button>
-              </div>
-
-            </div>
+            ))}
+            {/* Cierre visual inferior */}
+            <div className="border-t border-foreground/10" />
           </div>
 
         </div>

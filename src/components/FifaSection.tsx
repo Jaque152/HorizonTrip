@@ -2,7 +2,7 @@
 import { useLocale } from 'next-intl';
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Trophy } from "lucide-react";
 import Link from "next/link";
 import { supabase } from '@/lib/supabase';
 import { FifaExp } from "@/lib/types";
@@ -15,11 +15,16 @@ export function FifaSection() {
 
   useEffect(() => {
     async function loadFifaData() {
-      const { data } = await supabase
-        .from('fifa_experiences_explonix')
+      // CAMBIO CLAVE: Apuntamos a la nueva tabla terminada en _horizon
+      const { data, error } = await supabase
+        .from('fifa_experiences_horizon')
         .select('*')
         .order('order_index', { ascending: true });
         
+      if (error) {
+        console.error("Error al cargar experiencias FIFA:", error);
+      }
+
       if (data) {
         setFifaExps(data);
         if (data.length > 0) {
@@ -30,101 +35,101 @@ export function FifaSection() {
     loadFifaData();
   }, []);
 
-  // Encuentra la experiencia activa completa para mostrarla en el panel derecho
   const activeExp = fifaExps.find(exp => exp.id === activeExpId);
 
   return (
-    <section className="py-24 bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 overflow-hidden text-white relative">
-      {/* Malla digital de fondo */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+    <section className="relative min-h-screen flex items-center py-24 lg:py-32 bg-foreground text-white overflow-hidden">
+      
+      {/* Fondo Dinámico Inmersivo - Cambia según la experiencia activa */}
+      {fifaExps.map((exp) => (
+        <div 
+          key={exp.id}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${activeExpId === exp.id ? 'opacity-100 z-0' : 'opacity-0 -z-10'}`}
+        >
+          <img 
+            src={exp.image_url} 
+            alt={exp.title} 
+            className="w-full h-full object-cover scale-105"
+          />
+          {/* Degradado que oscurece la mitad izquierda para que el texto sea legible */}
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/90 to-transparent md:to-black/30" />
+        </div>
+      ))}
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      <div className="container mx-auto px-6 lg:px-12 relative z-10 w-full">
         
-        {/* Cabecera*/}
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 mb-16">
-          <div className="max-w-2xl">
-            <h2 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-[1]">
-              <T>El evento de la década,</T><br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-primary">
-                <T>cero fricción</T>
-              </span>
-            </h2>
-            <p className="text-cyan-100 text-lg leading-relaxed font-medium">
-              <T>Asegura tu lugar sin el estrés de la planificación. Dinos cómo lo imaginas y nuestro equipo blindará tus accesos, traslados y alojamiento estratégico.</T>
-            </p>
+        <div className="max-w-3xl mb-16">
+          <div className="mb-6 inline-flex items-center gap-3">
+            <Trophy className="w-4 h-4 text-secondary" />
+            <span className="text-xs font-bold text-secondary tracking-[0.3em] uppercase drop-shadow-md">
+              <T>Exclusividad Deportiva</T>
+            </span>
           </div>
-          <Button asChild className="rounded-full bg-white text-indigo-950 hover:bg-cyan-400 hover:text-indigo-950 h-14 px-8 text-base font-bold transition-colors shadow-xl">
-            <Link href={`/${locale}/cotizar`}>
-              <T>Quiero estar ahí</T> <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-          </Button>
+          <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter leading-[0.9]">
+            <T>El mundo mira.</T><br/>
+            <span className="font-light italic text-white/50">
+              <T>Tú lo vives.</T>
+            </span>
+          </h2>
         </div>
 
-        {/* Layout: Interactive Showcase */}
+        {/* Layout Radicalmente Distinto: Navegación Horizontal */}
         {fifaExps.length > 0 && activeExp && (
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="flex flex-col gap-12">
             
-            {/* Columna Izquierda: Menú de Opciones */}
-            <div className="lg:col-span-5 flex flex-col gap-3">
+            {/* Menú de Pestañas Minimalista */}
+            <div className="flex flex-wrap gap-4 md:gap-8 border-b border-white/20 pb-4">
               {fifaExps.map((exp) => (
                 <button
                   key={exp.id}
                   onClick={() => setActiveExpId(exp.id)}
-                  className={`text-left p-6 rounded-3xl transition-all duration-300 border-2 ${
+                  className={`text-sm md:text-base font-bold tracking-widest uppercase transition-all duration-300 relative pb-4 ${
                     activeExpId === exp.id 
-                      ? 'bg-white/10 border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.15)]' 
-                      : 'bg-transparent border-transparent hover:bg-white/5'
+                      ? 'text-white' 
+                      : 'text-white/40 hover:text-white/80'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className={`text-xs font-bold uppercase tracking-widest mb-2 ${activeExpId === exp.id ? 'text-cyan-400' : 'text-indigo-300'}`}>
-                        <T>{exp.subtitle}</T>
-                      </div>
-                      <h3 className={`text-2xl font-black tracking-tight ${activeExpId === exp.id ? 'text-white' : 'text-white/70'}`}>
-                        <T>{exp.title}</T>
-                      </h3>
-                    </div>
-                    {/* Indicador de activo */}
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300 ${activeExpId === exp.id ? 'bg-cyan-400 text-indigo-950 rotate-0' : 'bg-white/10 text-white/50 -rotate-45'}`}>
-                      <ArrowRight className="w-5 h-5" />
-                    </div>
-                  </div>
+                  <T>{exp.title}</T>
+                  {/* Línea indicadora animada */}
+                  {activeExpId === exp.id && (
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-secondary animate-reveal" />
+                  )}
                 </button>
               ))}
             </div>
 
-            {/* Columna Derecha: Visor de Detalles (Detail) */}
-            <div className="lg:col-span-7 relative">
-              <div className="sticky top-32 glass-panel border-white/10 bg-white/5 rounded-[2.5rem] p-4 overflow-hidden shadow-2xl">
-                
-                {/* Imagen Principal */}
-                <div className="aspect-[16/9] md:aspect-[21/9] lg:aspect-[16/10] rounded-[2rem] overflow-hidden relative mb-8">
-                  {/* Key prop fuerza a React a re-renderizar la animación cuando cambia de imagen */}
-                  <img key={activeExp.image_url} src={activeExp.image_url} alt={activeExp.title} className="w-full h-full object-cover animate-fade-in" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/80 to-transparent"></div>
-                </div>
-
-                {/* Contenido Dinámico */}
-                <div key={activeExp.id} className="px-4 md:px-8 pb-8 animate-fade-up">
-                  <p className="text-lg text-cyan-50 mb-8 leading-relaxed font-medium">
-                    <T>{activeExp.description}</T>
-                  </p>
-                  
-                  <div className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
-                    {activeExp.items.map((item, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
-                        <span className="text-sm text-indigo-100 font-medium leading-tight">
-                          <T>{item}</T>
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+            {/* Contenido de la Experiencia Activa (Sin Cajas ni Tarjetas) */}
+            <div className="grid md:grid-cols-2 gap-12 items-start max-w-5xl animate-reveal" key={activeExp.id}>
+              
+              <div className="space-y-8">
+                <h3 className="text-3xl font-black text-secondary tracking-tight">
+                  <T>{activeExp.subtitle}</T>
+                </h3>
+                <p className="text-lg text-white/80 leading-relaxed font-medium">
+                  <T>{activeExp.description}</T>
+                </p>
+                <Button asChild className="rounded-none border-b-2 border-secondary bg-transparent hover:bg-secondary hover:text-foreground text-white h-14 px-8 text-sm tracking-widest uppercase font-bold transition-all mt-4">
+                  <Link href={`/${locale}/cotizar`}>
+                    <T>Reservar Acceso</T> <ArrowRight className="ml-3 w-4 h-4" />
+                  </Link>
+                </Button>
               </div>
-            </div>
 
+              {/* Lista de beneficios con tipografía gigante */}
+              <div className="flex flex-col gap-6">
+                {activeExp.items.map((item, i) => (
+                  <div key={i} className="flex gap-6 items-start group">
+                    <span className="text-2xl font-serif italic text-white/20 group-hover:text-secondary transition-colors">
+                      0{i + 1}
+                    </span>
+                    <span className="text-base text-white/90 font-medium leading-snug pt-1 border-b border-white/10 pb-4 w-full">
+                      <T>{item}</T>
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+            </div>
           </div>
         )}
 

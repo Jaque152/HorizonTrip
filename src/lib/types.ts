@@ -1,3 +1,5 @@
+// types.ts
+
 export interface Category {
   id: number;
   name: string;
@@ -13,37 +15,29 @@ export interface ContactMessage {
   created_at: string;
 }
 
-export interface Experience {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  location: string;
-  duration?: string;
-  images: string[]; 
-  what_you_will_do?: string[];      
-  itinerary?: string[]; 
-  requirements?: string[]; 
-  important_info?: Record<string, string[]>; 
-  included_general?: string[]; 
-  category_id: number;
-  categories?: Category; 
-}
-
-export interface PackageFeatures {
-  incluye?: string[];
+// Nueva interfaz para mapear el JSONB de logistica_y_disponibilidad
+export interface Logistics {
+  duracion_estimada?: string;
   no_incluye?: string[];
 }
 
-export interface ActivityPackage {
+export interface Experience {
   id: number;
-  activity_id: number;
-  package_name: string; 
-  price: number; 
-  features: PackageFeatures; 
-  min_pax: number; 
-  max_pax?: number; 
-  is_active: boolean; 
+  slug: string;
+  title: string;
+  plan_type: string; // Ej: 'PLAN' | 'EXPERIENCIA' | 'PERSONALIZADA'
+  destination: string;
+  price: number;
+  currency: string;
+  tax_included: boolean;
+  description: string;
+  suggested_route: string[];
+  included: string[];
+  logistics: Logistics;
+  category_id: number;
+  images: string[];
+  categories?: Category; 
+  created_at?: string;
 }
 
 export interface Customer {
@@ -69,15 +63,6 @@ export interface CustomQuote {
   created_at: string;
 }
 
-export interface ContactMessage {
-  id: number;
-  full_name: string;
-  phone: string;
-  email: string;
-  message: string;
-  created_at: string;
-}
-
 export interface Booking {
   id: string; 
   customer_id: string;
@@ -100,24 +85,23 @@ export interface Booking {
 export interface BookingItem {
   id: number;
   booking_id: string;
-  package_id: number;
+  activity_id: number; // Reemplaza al antiguo package_id
   scheduled_date: string;
   scheduled_time?: string; 
   pax_qty: number; 
   unit_price: number;
-  activity_packages?: {
-    features: PackageFeatures;
-    package_name: string;
-    activities: { title: string; location: string };
+  activities_horizon?: { // Relación directa con la actividad
+    title: string; 
+    destination: string;
+    plan_type: string;
   };
 }
 
 export interface CartItem {
   id?: number; 
   sessionId?: string; 
-  packageId: number; 
+  activityId: number; // Reemplaza al antiguo packageId
   experience: Experience;
-  levelName: string; 
   date: string; 
   time?: string; 
   people: number;
@@ -137,16 +121,21 @@ export interface FifaExp {
   description: string;
   items: string[];
   image_url: string;
+  order_index?: number;
 }
 
+// Interfaz optimizada para las consultas directas a Supabase
 export interface SupabaseExperienceResponse {
   id: number;
-  title: string;
   slug: string;
+  title: string;
+  plan_type: string;
+  destination: string;
+  price: number;
+  currency: string;
+  tax_included: boolean;
   description: string;
-  location: string;
   images: string[]; 
   category_id: number;
   categories?: { id: number; name: string; slug: string } | null;
-  activity_packages?: { price: number; package_name: string }[];
 }

@@ -1,99 +1,95 @@
+// Hero.tsx
 "use client";
 import { T } from "@/components/T";
-import { Button } from "@/components/ui/button";
-import { Globe2, MapPin, Sparkles, ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { MapPin, MoveDown } from "lucide-react";
 import { useLocale } from 'next-intl';
 
 export function Hero() {
   const locale = useLocale();
+  
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        {/* Contenido Centralizado */}
-        <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-up flex flex-col items-center">
-          
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground rounded-full shadow-lg hover:scale-105 transition-transform cursor-default">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-xs sm:text-sm font-bold text-background tracking-wide uppercase">
-              <T>OPERACIONES DE VIAJE</T>
+    <section className="relative h-screen w-full flex flex-col justify-end pb-12 md:pb-20 px-6 lg:px-12 overflow-hidden">
+      
+      {/* Fondo Cinemático Inmersivo */}
+      <div className="absolute inset-0 w-full h-full">
+        <img 
+          src="https://images.pexels.com/photos/240526/pexels-photo-240526.jpeg" 
+          alt="Paisaje de selva y playa" 
+          className="w-full h-full object-cover animate-pulse-slow scale-105"
+          style={{ animation: 'panImage 30s infinite alternate ease-in-out' }}
+        />
+        {/* OVERLAYS DE CONTRASTE: Fundamentales para que el texto blanco sea legible */}
+        {/* 1. Oscurecimiento general sutil */}
+        <div className="absolute inset-0 bg-black/30" />
+        {/* 2. Degradado fuerte abajo para fundir con la página y arriba para el Navbar */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-background" />
+      </div>
+
+      <style jsx>{`
+        @keyframes panImage {
+          0% { transform: scale(1.05) translate(0, 0); }
+          100% { transform: scale(1.1) translate(-1%, 2%); }
+        }
+      `}</style>
+
+      {/* Contenido Principal */}
+      <div className="relative z-10 w-full max-w-screen-2xl mx-auto flex flex-col md:flex-row items-end justify-between gap-12 animate-reveal pt-32">
+        
+        {/* Lado Izquierdo: Narrativa */}
+        <div className="w-full md:w-2/3">
+          <div className="mb-6 inline-flex items-center gap-3">
+            <span className="h-[1px] w-8 bg-primary"></span>
+            <span className="text-xs md:text-sm font-bold text-white tracking-[0.4em] uppercase drop-shadow-md">
+              <T>Retiros Exclusivos</T>
             </span>
           </div>
-
-          {/* Tamaños de texto */}
-          <h1 className="text-5xl md:text-6xl lg:text-[5.5rem] font-black leading-[1.05] tracking-tighter">
-            <T>Deesbloquea el</T>{" "}
-            <span className="relative inline-block">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">
-                México
-              </span>
-              {/* Subrayado decorativo tecnológico */}
-              <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="4" fill="transparent" />
-              </svg>
-            </span>
-            <br />
-            <T>inexplorado</T>
+          
+          {/* Texto en blanco brillante para contraste puro */}
+          <h1 className="text-white text-6xl sm:text-8xl lg:text-[10rem] xl:text-[11rem] font-black leading-[0.85] tracking-tighter drop-shadow-xl">
+            Horizon<br/>
+            <span className="text-primary font-light italic tracking-tight">Trip.</span>
           </h1>
-
-          <p className="text-lg md:text-xl font-medium text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            <T>Tecnología, precisión y logística de primer nivel para conectarte con los rincones más fascinantes del país. Tú decides el destino, nosotros orquestamos el resto.</T>
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 w-full sm:w-auto">
-            <Button asChild size="lg" className="w-full sm:w-auto h-14 px-8 rounded-full bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-[0_0_40px_-10px_rgba(255,87,51,0.5)] transition-all hover:scale-105 group">
-              <Link href={`/${locale}/experiencias`}>
-                <T>Iniciar Exploración</T>
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 rounded-full border-2 border-border/50 bg-white/50 backdrop-blur-sm font-bold text-lg hover:bg-foreground hover:text-background hover:border-foreground transition-all">
-              <Link href={`/${locale}/#contacto`}>
-                <Globe2 className="w-5 h-5 mr-2" />
-                <T>Conectar</T>
-              </Link>
-            </Button>
-          </div>
-        </div>
-
-        {/* Galería Panorámica Flotante */}
-        <div className="mt-20 relative w-full max-w-6xl mx-auto hidden md:flex justify-center items-center gap-6 animate-fade-up" style={{ animationDelay: '0.2s' }}>
           
-          {/* Tarjeta Izquierda */}
-          <div className="relative w-1/3 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl -rotate-6 translate-y-8 hover:rotate-0 hover:translate-y-0 transition-all duration-500 hover:z-20 group">
-             <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/30746580/pexels-photo-30746580.jpeg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700" />
-             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-             <div className="absolute bottom-4 left-4 glass-panel px-3 py-1.5 rounded-lg text-white text-xs font-bold border-white/20">
-                Puebla
-             </div>
-          </div>
-
-          {/* Tarjeta Central */}
-          <div className="relative w-2/5 aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.2)] z-10 hover:scale-105 transition-all duration-500 group">
-             <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/12665188/pexels-photo-12665188.jpeg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700" />
-             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-             <div className="absolute bottom-6 left-6 right-6">
-                <div className="glass-panel px-4 py-3 rounded-2xl flex items-center justify-between text-white border-white/20">
-                   <div className="flex items-center gap-3">
-                     <div className="p-2 bg-primary rounded-full"><MapPin className="w-4 h-4" /></div>
-                     <span className="text-sm md:text-base font-bold tracking-wide">CDMX</span>
-                   </div>
-                </div>
-             </div>
-          </div>
-
-          {/* Tarjeta Derecha */}
-          <div className="relative w-1/3 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl rotate-6 translate-y-8 hover:rotate-0 hover:translate-y-0 transition-all duration-500 hover:z-20 group">
-             <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/22912077/pexels-photo-22912077.jpeg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700" />
-             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-             <div className="absolute bottom-4 left-4 glass-panel px-3 py-1.5 rounded-lg text-white text-xs font-bold border-white/20">
-                Los Cabos
-             </div>
-          </div>
-
+          <p className="mt-8 text-base sm:text-lg lg:text-xl text-white/90 font-medium max-w-lg leading-relaxed drop-shadow-md">
+            <T>El arte de viajar sin la fricción del turismo masivo. Santuarios naturales, costas inexploradas y tiempo para reconectar.</T>
+          </p>
         </div>
 
+        {/* Lado Derecho: Widget de Destino */}
+        <div className="w-full md:w-auto flex flex-col items-start md:items-end gap-8">
+          
+          {/* Tarjeta Glassmorphism mejorada (Fondo oscuro semitransparente) */}
+          <div className="p-5 rounded-3xl w-full sm:w-80 bg-black/20 backdrop-blur-md border border-white/10 shadow-2xl">
+            <p className="text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 text-white/70">
+              <T>Destino Destacado</T>
+            </p>
+            <div className="flex gap-4 items-center group cursor-pointer">
+              <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0 shadow-inner">
+                <img 
+                  src="https://images.pexels.com/photos/1640413/pexels-photo-1640413.jpeg" 
+                  alt="Tulum" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                />
+              </div>
+              <div>
+                <p className="font-black text-white text-lg leading-tight group-hover:text-primary transition-colors">Costa Esmeralda</p>
+                <div className="flex items-center gap-1 mt-1 text-sm text-white/80 font-medium">
+                  <MapPin className="w-3 h-3 text-primary" />
+                  <span>Oaxaca, México</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Indicador de Scroll Orgánico */}
+          <div className="flex items-center gap-4 text-white/70 md:justify-end w-full cursor-pointer hover:text-white transition-colors mt-4">
+            <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest"><T>Descubre</T></span>
+            <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center animate-bounce shadow-lg">
+              <MoveDown className="w-4 h-4" />
+            </div>
+          </div>
+          
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,3 @@
-# Explonix - Plataforma Transaccional
-
-
 ## Rutas del Proyecto
 | Ruta | Descripción |
 |------|-------------|

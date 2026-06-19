@@ -9,8 +9,8 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: "Explonix | Redefiniendo la Exploración y el Viaje",
-  description: "Curamos itinerarios a la medida y experiencias de alto nivel. Descubre los destinos más asombrosos con el respaldo y la exclusividad de Explonix.",
+  title: "HorizonTrip | Agencia Boutique de Viajes",
+  description: "Curamos itinerarios excepcionales. Desde santuarios escondidos en la selva hasta retiros privados frente al mar. El arte de viajar sin fricción.",
 };
 
 export default async function RootLayout({

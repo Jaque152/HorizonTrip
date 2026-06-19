@@ -23,7 +23,7 @@ export default function PagoFolioPage() {
   const [folio, setFolio] = useState("");
   const [fecha, setFecha] = useState("");
 
-  const btnConfirmar = useT("Añadir al carrito");
+  const btnConfirmar = useT("Añadir al Dossier");
 
   const handleMontoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/[^0-9.]/g, ''); 
@@ -43,18 +43,25 @@ export default function PagoFolioPage() {
 
     const montoNumerico = parseFloat(monto);
 
+    // Estructura actualizada para coincidir con la nueva base de datos y CartItem
     const customExperienceItem = {
-      packageId: 0,
+      activityId: 0,
       experience: {
         id: 0,
-        title: "Aventura Personalizada",
-        slug: "aventura-personalizada",
-        description: `Pago de folio: ${folio}`,
-        location: "Múltiples Destinos",
-        images: ["https://images.pexels.com/photos/7709272/pexels-photo-7709272.jpeg"],
-        category_id: 0
+        title: "Diseño de Ruta a la Medida",
+        slug: "ruta-a-la-medida",
+        plan_type: "Personalizada",
+        destination: "Múltiples Destinos",
+        price: montoNumerico,
+        currency: "MXN",
+        tax_included: true,
+        description: `Pago asociado al folio de concierge: ${folio}`,
+        suggested_route: [],
+        included: ["Itinerario personalizado", "Gestión de Concierge", "Soporte 24/7"],
+        logistics: {},
+        category_id: 0,
+        images: ["https://images.pexels.com/photos/7709272/pexels-photo-7709272.jpeg"]
       },
-      levelName: "Personalizado",
       date: fecha,
       people: 1, 
       pricePerPerson: montoNumerico,
@@ -70,129 +77,140 @@ export default function PagoFolioPage() {
   minDate.setDate(minDate.getDate() + 1);
   const minDateStr = minDate.toISOString().split("T")[0];
 
-  const inputClass = "h-14 bg-slate-50 border-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl px-5 font-bold text-slate-700 placeholder:text-slate-400 placeholder:font-medium w-full";
-  const labelClass = "text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2 ml-1";
+  // Estilo editorial para inputs
+  const inputClass = "h-14 border-0 border-b-2 border-foreground/10 bg-transparent focus-visible:ring-0 focus-visible:border-primary rounded-none px-0 font-medium text-lg text-foreground placeholder:text-foreground/30 transition-colors w-full";
+  const labelClass = "text-xs font-bold uppercase tracking-widest text-foreground/50 mb-2 block";
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background selection:bg-primary/20">
       <Header />
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-32 pb-32">
         
-        {/* Hero Section  */}
-        <section className="bg-slate-900 pt-24 pb-40 relative overflow-hidden rounded-b-[3rem] mx-2 lg:mx-4 mt-4">
-          <div className="absolute top-0 left-0 w-full h-full opacity-20">
-            <img 
-              src="https://images.pexels.com/photos/7709272/pexels-photo-7709272.jpeg" 
-              className="w-full h-full object-cover" 
-              alt="Explonix Experiencia" 
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
-          </div>
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full pointer-events-none" />
-          
-          <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-6 backdrop-blur-sm">
-              <FileText className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs font-bold uppercase tracking-widest text-white"><T>Servicios Privados</T></span>
+        {/* Cabecera Editorial */}
+        <section className="container mx-auto px-6 lg:px-12 max-w-screen-xl mb-16">
+          <div className="max-w-3xl">
+            <div className="mb-6 inline-flex items-center gap-3">
+              <span className="h-[1px] w-8 bg-primary"></span>
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-foreground/60">
+                <T>Servicios Privados</T>
+              </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-6">
-              <T>Pago de</T> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-primary"><T>Folio</T></span>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground mb-6 leading-[0.9]">
+              <T>Liquidación de</T><br/>
+              <span className="font-light italic text-primary"><T>Folio.</T></span>
             </h1>
-            <p className="text-lg text-slate-400 font-medium max-w-2xl mx-auto">
-              <T>Procesamiento seguro para itinerarios a la medida y servicios exclusivos de Explonix. Ingresa los detalles de tu folio para proceder al checkout.</T>
+            <p className="text-lg text-muted-foreground font-medium max-w-xl leading-relaxed">
+              <T>Procesamiento seguro para itinerarios a la medida y servicios exclusivos de HorizonTrip. Ingresa los detalles de tu folio asignado para proceder al checkout.</T>
             </p>
           </div>
         </section>
 
-        {/* Tarjeta de Formulario Flotante */}
-        <section className="container mx-auto px-4 max-w-3xl relative z-20 pb-24 -mt-24">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl p-8 md:p-12">
+        {/* Formulario Estilo Dossier */}
+        <section className="container mx-auto px-6 lg:px-12 max-w-screen-xl">
+          <div className="bg-white rounded-[2rem] border border-border/50 shadow-2xl p-8 md:p-12 lg:p-16 max-w-4xl">
             
-            <div className="flex items-center gap-4 mb-10 pb-6 border-b border-slate-100">
-              <div className="w-12 h-12 bg-cyan-50 rounded-full flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-6 h-6 text-cyan-500" />
+            <div className="flex items-center gap-4 mb-12 pb-8 border-b border-foreground/10">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h2 className="text-2xl font-black tracking-tight text-slate-900"><T>Detalles de la Reserva</T></h2>
-                <p className="text-slate-500 font-medium text-sm"><T>Tus datos están protegidos y encriptados.</T></p>
+                <h2 className="text-2xl font-black tracking-tight text-foreground"><T>Detalles de la Operación</T></h2>
+                <p className="text-muted-foreground font-medium text-sm"><T>Tus datos están protegidos y encriptados de extremo a extremo.</T></p>
               </div>
             </div>
 
-            <form onSubmit={handleConfirmarReserva} className="space-y-8">
+            <form onSubmit={handleConfirmarReserva} className="space-y-12">
               
               {/* Bloque Destacado: Monto */}
-              <div className="bg-slate-50 rounded-[1.5rem] p-6 md:p-8 border border-slate-100 focus-within:ring-2 focus-within:ring-primary transition-all">
-                <label className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2 block"><T>Monto Acordado (MXN + IVA)</T></label>
-                <div className="flex items-center mt-2">
-                  <span className="text-4xl md:text-5xl font-black text-slate-300 mr-3">$</span>
-                  <Input 
-                    type="text" 
-                    value={monto}
-                    onChange={handleMontoChange}
-                    placeholder="0.00"
-                    required
-                    className="border-none bg-transparent p-0 text-4xl md:text-5xl font-black text-slate-900 focus-visible:ring-0 shadow-none h-auto placeholder:text-slate-200 tracking-tighter"
-                  />
+              <div className="bg-foreground rounded-[1.5rem] p-8 md:p-10 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+                  <FileText className="w-64 h-64 text-white" />
+                </div>
+                <div className="relative z-10">
+                  <label className="text-xs font-bold uppercase tracking-widest text-white/50 mb-4 block"><T>Valor de Inversión (MXN + IVA)</T></label>
+                  <div className="flex items-end gap-4 border-b border-white/20 pb-4 focus-within:border-primary transition-colors">
+                    <span className="text-5xl md:text-6xl font-light text-white/30">$</span>
+                    <Input 
+                      type="text" 
+                      value={monto}
+                      onChange={handleMontoChange}
+                      placeholder="0.00"
+                      required
+                      className="border-none bg-transparent p-0 text-5xl md:text-6xl font-black text-white focus-visible:ring-0 shadow-none h-auto placeholder:text-white/20 tracking-tighter"
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Grid de Datos */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
-                <div>
-                  <label className={labelClass}><User className="w-4 h-4 text-primary" /> <T>Nombre</T></label>
-                  <Input 
-                    type="text" 
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    required
-                    placeholder="Nombre completo"
-                    className={inputClass}
-                  />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10">
+                <div className="group">
+                  <label className={labelClass}><T>Nombre del Titular</T></label>
+                  <div className="relative">
+                    <User className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30 group-focus-within:text-primary transition-colors" />
+                    <Input 
+                      type="text" 
+                      value={nombre}
+                      onChange={(e) => setNombre(e.target.value)}
+                      required
+                      placeholder="Nombre completo"
+                      className={`${inputClass} pl-8`}
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <label className={labelClass}><Mail className="w-4 h-4 text-primary" /> <T>Correo</T></label>
-                  <Input 
-                    type="email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="correo@ejemplo.com"
-                    className={inputClass}
-                  />
+                <div className="group">
+                  <label className={labelClass}><T>Correo de Contacto</T></label>
+                  <div className="relative">
+                    <Mail className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30 group-focus-within:text-primary transition-colors" />
+                    <Input 
+                      type="email" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      placeholder="correo@ejemplo.com"
+                      className={`${inputClass} pl-8`}
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <label className={labelClass}><FileText className="w-4 h-4 text-primary" /> <T>Folio</T></label>
-                  <Input 
-                    type="text" 
-                    value={folio}
-                    onChange={(e) => setFolio(e.target.value.toUpperCase())}
-                    required
-                    placeholder="Ej: EXP-001"
-                    className={`${inputClass} uppercase tracking-wider`}
-                  />
+                <div className="group">
+                  <label className={labelClass}><T>Folio Asignado</T></label>
+                  <div className="relative">
+                    <FileText className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30 group-focus-within:text-primary transition-colors" />
+                    <Input 
+                      type="text" 
+                      value={folio}
+                      onChange={(e) => setFolio(e.target.value.toUpperCase())}
+                      required
+                      placeholder="Ej: HT-001"
+                      className={`${inputClass} pl-8 uppercase tracking-widest`}
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <label className={labelClass}><Calendar className="w-4 h-4 text-primary" /> <T>Fecha de Inicio</T></label>
-                  <Input 
-                    type="date" 
-                    value={fecha}
-                    min={minDateStr}
-                    onChange={(e) => setFecha(e.target.value)}
-                    required
-                    className={inputClass}
-                  />
+                <div className="group">
+                  <label className={labelClass}><T>Fecha de Inicio de Ruta</T></label>
+                  <div className="relative">
+                    <Calendar className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30 group-focus-within:text-primary transition-colors" />
+                    <Input 
+                      type="date" 
+                      value={fecha}
+                      min={minDateStr}
+                      onChange={(e) => setFecha(e.target.value)}
+                      required
+                      className={`${inputClass} pl-8`}
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Botón de Envío */}
-              <div className="pt-8 mt-8 border-t border-slate-100">
+              <div className="pt-10">
                 <button 
                   type="submit" 
                   disabled={!isFormValid}
-                  className="w-full h-16 bg-gradient-to-r from-primary to-cyan-500 hover:opacity-90 text-white font-black rounded-2xl shadow-[0_10px_30px_rgba(99,102,241,0.3)] transition-all duration-300 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed flex items-center justify-center gap-3 group"
+                  className="w-full h-16 bg-foreground hover:bg-primary text-background font-bold rounded-full shadow-xl transition-all duration-300 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed flex items-center justify-center gap-3 group"
                 >
                   <span className="text-sm uppercase tracking-widest">
                     {btnConfirmar}

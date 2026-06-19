@@ -1,3 +1,4 @@
+// context/CartContext.tsx
 "use client";
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
@@ -6,8 +7,8 @@ import type { CartItem, Cart } from "@/lib/types";
 interface CartContextType {
   cart: Cart;
   addToCart: (item: Omit<CartItem, "totalPrice">) => void;
-  removeFromCart: (packageId: number, date: string) => void;
-  updateQuantity: (packageId: number, date: string, people: number) => void;
+  removeFromCart: (activityId: number, date: string) => void;
+  updateQuantity: (activityId: number, date: string, people: number) => void;
   clearCart: () => void;
   getItemCount: () => number;
 }
@@ -18,9 +19,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart>({ items: [], total: 0 });
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // Cargar del localStorage
+  // Cargar del localStorage (Cambiamos el nombre de la key a HorizonTrip-cart)
   useEffect(() => {
-    const savedCart = localStorage.getItem("Explonix-cart");
+    const savedCart = localStorage.getItem("HorizonTrip-cart");
     if (savedCart) {
       try {
         setCart(JSON.parse(savedCart));
@@ -34,7 +35,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // Guardar en localStorage
   useEffect(() => {
     if (isHydrated) {
-      localStorage.setItem("Explonix-cart", JSON.stringify(cart));
+      localStorage.setItem("HorizonTrip-cart", JSON.stringify(cart));
     }
   }, [cart, isHydrated]);
 
@@ -45,7 +46,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCart = (newItem: Omit<CartItem, "totalPrice">) => {
     setCart((prev) => {
       const existingIndex = prev.items.findIndex(
-        (i) => i.packageId === newItem.packageId && i.date === newItem.date
+        (i) => i.activityId === newItem.activityId && i.date === newItem.date
       );
 
       let newItems: CartItem[];
@@ -62,19 +63,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const removeFromCart = (packageId: number, date: string) => {
+  const removeFromCart = (activityId: number, date: string) => {
     setCart((prev) => {
       const newItems = prev.items.filter(
-        (item) => !(item.packageId === packageId && item.date === date)
+        (item) => !(item.activityId === activityId && item.date === date)
       );
       return { items: newItems, total: calculateTotals(newItems) };
     });
   };
 
-  const updateQuantity = (packageId: number, date: string, people: number) => {
+  const updateQuantity = (activityId: number, date: string, people: number) => {
     setCart((prev) => {
       const newItems = prev.items.map((item) => {
-        if (item.packageId === packageId && item.date === date) {
+        if (item.activityId === activityId && item.date === date) {
           return { ...item, people, totalPrice: item.pricePerPerson * people };
         }
         return item;

@@ -28,13 +28,13 @@ export async function POST(req: Request) {
     // 2A. LÓGICA PARA CONTACTO GENERAL
     // ==========================================
     if (type === 'CONTACT') {
-      subjectClient = '[Explonix] Hemos recibido tu mensaje';
+      subjectClient = '[HorizonTrip] Hemos recibido tu mensaje';
       subjectInternal = `[NUEVO MENSAJE DE CONTACTO] - ${customerName}`;
 
       htmlClient = `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #334155; max-width: 600px; margin: auto; border: 1px solid #f1f5f9; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);">
           <div style="background-color: ${bgDark}; padding: 40px 20px; text-align: center; border-bottom: 4px solid ${textAccent};">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px;">EXPLONIX</h1>
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px;">HorizonTrip</h1>
           </div>
           <div style="padding: 40px 30px; background-color: #ffffff;">
             <h2 style="color: #0f172a; margin-top: 0; font-size: 24px; font-weight: 800;">${greeting}</h2>
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
             </div>
 
             <div style="text-align: center; margin-top: 40px;">
-              <a href="https://explonix.com/es/#experiencias" style="display: inline-block; background-color: ${bgDark}; color: #ffffff; padding: 16px 32px; border-radius: 9999px; text-decoration: none; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+              <a href="https://horizontrip.com/es/#experiencias" style="display: inline-block; background-color: ${bgDark}; color: #ffffff; padding: 16px 32px; border-radius: 9999px; text-decoration: none; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
                 Explorar Expediciones
               </a>
             </div>
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 
       htmlInternal = `
         <div style="font-family: sans-serif; color: #333;">
-          <h2 style="color: ${textAccent};">Nuevo Mensaje Web (Explonix)</h2>
+          <h2 style="color: ${textAccent};">Nuevo Mensaje Web (HorizonTrip)</h2>
           <hr/>
           <p><strong>Nombre:</strong> ${customerName}</p>
           <p><strong>Email:</strong> ${email}</p>
@@ -71,13 +71,13 @@ export async function POST(req: Request) {
     // 2B. LÓGICA PARA COTIZACIONES
     // ==========================================
     else if (type === 'QUOTE') {
-      subjectClient = `[Explonix] Estamos configurando tu viaje a ${destination}`;
+      subjectClient = `[HorizonTrip] Estamos configurando tu viaje a ${destination}`;
       subjectInternal = `[NUEVA COTIZACIÓN] - ${destination} - ${customerName}`;
 
       htmlClient = `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #334155; max-width: 600px; margin: auto; border: 1px solid #f1f5f9; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);">
           <div style="background-color: ${bgDark}; padding: 40px 30px; text-align: center; border-bottom: 4px solid ${textAccent};">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px;">EXPLONIX</h1>
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px;">HorizonTrip</h1>
             <p style="color: ${textAccent}; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 4px; margin-top: 10px;">Viajes a tu medida</p>
           </div>
           <div style="padding: 40px 30px; background-color: #ffffff;">
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
 
       htmlInternal = `
         <div style="font-family: sans-serif; color: #333;">
-          <h2 style="color: ${textAccent};">Nueva Cotización (Explonix)</h2>
+          <h2 style="color: ${textAccent};">Nueva Cotización (HorizonTrip)</h2>
           <hr/>
           <p><strong>Cliente:</strong> ${customerName}</p>
           <p><strong>Destino:</strong> ${destination}</p>
@@ -121,7 +121,7 @@ export async function POST(req: Request) {
     // 3. ENVÍO DE CORREOS
     // Al cliente:
     const { data, error } = await resend.emails.send({
-      from: 'Explonix <cotizaciones@explonix.com>',
+      from: 'HorizonTrip <hola@horizontrip.com.mx>',
       to: [email],
       subject: subjectClient,
       html: htmlClient,
@@ -134,8 +134,8 @@ export async function POST(req: Request) {
 
     // Al equipo interno:
     const internalMail = await resend.emails.send({
-      from: 'Sistema Explonix <cotizaciones@explonix.com>',
-      to: ['contacto@explonix.com'], 
+      from: 'Sistema HorizonTrip <hola@horizontrip.com.mx>',
+      to: ['hola@horizontrip.com.mx'], 
       subject: subjectInternal,
       html: htmlInternal,
     });
