@@ -166,12 +166,14 @@ export async function POST(req: Request) {
           activity_id: item.activityId,
           scheduled_date: item.date,
           pax_qty: item.people,
-          unit_price: item.pricePerPerson
+          unit_price: item.pricePerPerson,
+          custom_destination: item.experience.plan_type === 'PERSONALIZADA' ? item.experience.destination : null
+
         }));
       if (validBookingItems.length > 0) {
         const { error: itemsError } = await supabase.from('booking_items_horizon').insert(validBookingItems);
         if (itemsError) throw new Error("Error guardando items de reserva en la BD.");
-      }   
+      }  
     }
    
     // 6. CORREOS ELECTRÓNICOS 

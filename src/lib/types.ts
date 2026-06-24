@@ -85,12 +85,13 @@ export interface Booking {
 export interface BookingItem {
   id: number;
   booking_id: string;
-  activity_id: number; // Reemplaza al antiguo package_id
+  activity_id: number; 
   scheduled_date: string;
   scheduled_time?: string; 
   pax_qty: number; 
   unit_price: number;
-  activities_horizon?: { // Relación directa con la actividad
+  custom_destination?: string;
+  activities_horizon?: { 
     title: string; 
     destination: string;
     plan_type: string;

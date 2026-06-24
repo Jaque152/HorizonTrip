@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
 import { Experience } from "@/lib/types"; 
 import { T } from "@/components/T";
+import { useT } from "@/hooks/useT";
 import { useLocale } from 'next-intl';
 import {
   Check, Minus, Plus, Loader2, MapPin, Clock, ArrowRight, Sparkles
@@ -20,12 +21,14 @@ export default function ExperienceDetailPage() {
   const router = useRouter();
   const locale = useLocale();
   const { addToCart } = useCart();
+  const phDestino = useT("Ej. Oaxaca, Los Cabos, Tulum...");
 
   const [experience, setExperience] = useState<Experience | null>(null);
   const [loading, setLoading] = useState(true);
   
   const [selectedDate, setSelectedDate] = useState("");
   const [people, setPeople] = useState(1);
+  const [customDestination, setCustomDestination] = useState(""); // Nuevo estado para destino personalizado
   const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
@@ -58,13 +61,23 @@ export default function ExperienceDetailPage() {
     return `${formatter.format(price)} MXN`;
   };
 
+  // Verificamos si es una ruta a la medida (Bloque 6)
+  const isPersonalized = experience?.plan_type === 'PERSONALIZADA';
+
   const handleAddToCart = () => {
     if (!experience || !selectedDate) return;
+    if (isPersonalized && !customDestination.trim()) return; // Validación extra
+
     setIsAdding(true);
+
+    // Clonamos la experiencia para sobreescribir el destino si es personalizada
+    const experienceToCart = isPersonalized 
+      ? { ...experience, destination: customDestination } 
+      : experience;
 
     addToCart({
       activityId: experience.id,
-      experience: experience,
+      experience: experienceToCart,
       date: selectedDate,
       people: people,
       pricePerPerson: Number(experience.price),
@@ -103,6 +116,21 @@ export default function ExperienceDetailPage() {
         
         {/* Controles de Reserva */}
         <div className="space-y-6 mb-8">
+          
+          {/* Nuevo Campo: Destino (Solo visible para rutas personalizadas) */}
+          {isPersonalized && (
+            <div className="space-y-3 animate-fade-in">
+              <label className="text-xs font-bold text-white/50 uppercase tracking-widest"><T>Destino Deseado</T></label>
+              <Input 
+                type="text" 
+                value={customDestination} 
+                onChange={(e) => setCustomDestination(e.target.value)} 
+                placeholder={phDestino}
+                className="rounded-xl h-14 bg-background/10 font-bold text-white border-none focus-visible:ring-primary px-4 placeholder:text-white/30" 
+              />
+            </div>
+          )}
+
           <div className="space-y-3">
             <label className="text-xs font-bold text-white/50 uppercase tracking-widest"><T>Fecha de Inicio</T></label>
             <Input 
@@ -126,10 +154,10 @@ export default function ExperienceDetailPage() {
         <Button 
           className="w-full bg-primary hover:bg-white text-white hover:text-foreground font-black h-16 rounded-full uppercase tracking-widest text-sm transition-all group"
           onClick={handleAddToCart}
-          disabled={!selectedDate || isAdding}
+          disabled={!selectedDate || isAdding || (isPersonalized && !customDestination.trim())}
         >
           {isAdding ? <Loader2 className="animate-spin w-5 h-5 mr-3 inline" /> : null}
-          {isAdding ? <T>Integrando...</T> : <T>Añadir al Carrito</T>}
+          {isAdding ? <T>Integrando...</T> : <T>Añadir al Dossier</T>}
           {!isAdding && <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />}
         </Button>
       </div>
@@ -148,7 +176,7 @@ export default function ExperienceDetailPage() {
             {/* COLUMNA IZQUIERDA: Narrativa y Detalles */}
             <div className="lg:col-span-7 space-y-16 w-full">
               
-              {/* Título (Visible siempre aquí para seguir el ritmo editorial) */}
+              {/* Título */}
               <div>
                 <div className="mb-6 inline-flex items-center gap-3">
                   <span className="h-[1px] w-8 bg-primary"></span>
@@ -160,7 +188,11 @@ export default function ExperienceDetailPage() {
                   <T>{experience.title}</T>
                 </h1>
                 <div className="flex flex-wrap items-center gap-6 text-sm font-bold text-foreground/60">
-                  <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> <T>{experience.destination}</T></div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-primary" /> 
+                    {/* Si es personalizada y escribió algo, se muestra su destino, si no, el default */}
+                    {isPersonalized && customDestination ? customDestination : <T>{experience.destination}</T>}
+                  </div>
                   {experience.logistics?.duracion_estimada && (
                     <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-primary" /> <T>{experience.logistics.duracion_estimada}</T></div>
                   )}

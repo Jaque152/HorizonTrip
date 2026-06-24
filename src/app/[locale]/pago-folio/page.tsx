@@ -42,8 +42,6 @@ export default function PagoFolioPage() {
     if (!isFormValid) return;
 
     const montoNumerico = parseFloat(monto);
-
-    // Estructura actualizada para coincidir con la nueva base de datos y CartItem
     const customExperienceItem = {
       activityId: 0,
       experience: {

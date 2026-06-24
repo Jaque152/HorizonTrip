@@ -3,9 +3,9 @@ import { useLocale } from 'next-intl';
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image"; // IMPORTANTE: Agregamos el componente Image de Next.js
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from '@/lib/supabase';
 import { MapPin, Search, ArrowRight, Loader2, Compass } from "lucide-react";
@@ -32,7 +32,6 @@ function ExperienciasContent() {
         const { data: catData } = await supabase.from('categories_horizon').select('*');
         if (catData) setCategories(catData);
 
-        // Consulta simplificada: leemos directamente de la tabla principal
         const { data: actData, error: actError } = await supabase
           .from('activities_horizon')
           .select(`
@@ -100,8 +99,8 @@ function ExperienciasContent() {
       <Header />
       <main className="flex-1 pt-32">
         
-        {/* Cabecera Editorial (HorizonTrip Style) */}
-        <section className="pb-16 pt-8">
+        {/* Cabecera Editorial */}
+        <section className="pb-12 pt-8">
           <div className="container mx-auto px-6 lg:px-12 max-w-screen-xl text-center md:text-left flex flex-col md:flex-row justify-between items-end gap-8">
             <div className="max-w-2xl">
               <div className="mb-6 inline-flex items-center gap-3 justify-center md:justify-start w-full md:w-auto">
@@ -117,8 +116,8 @@ function ExperienciasContent() {
           </div>
         </section>
 
-        {/* Barra de Filtros Minimalista */}
-        <section className="sticky top-24 z-40 mb-16 bg-background/90 backdrop-blur-xl border-y border-foreground/10 py-4">
+        {/* Barra de Filtros Minimalista (Ya no es sticky, fluye con el contenido) */}
+        <section className="relative mb-16 border-y border-foreground/10 py-6">
           <div className="container mx-auto px-6 lg:px-12 max-w-screen-xl flex flex-col lg:flex-row gap-6 items-center justify-between">
             
             <div className="flex flex-wrap justify-center lg:justify-start gap-6 w-full lg:w-auto">
@@ -169,8 +168,14 @@ function ExperienciasContent() {
                     <Link key={exp.id} href={`/${locale}/experiencias/${exp.id}`} className="group block h-[450px] lg:h-[550px]">
                       <Card className="h-full relative overflow-hidden border-none rounded-[2rem] shadow-none hover:shadow-2xl transition-all duration-500 bg-foreground">
                         
-                        {/* Imagen de fondo inmersiva */}
-                        <img src={thumbImage} alt={exp.title} className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        {/* Imagen Optimizada con Next.js Image */}
+                        <Image 
+                          src={thumbImage} 
+                          alt={exp.title} 
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover scale-100 group-hover:scale-105 transition-transform duration-700 opacity-90" 
+                        />
                         
                         {/* Gradiente de contraste */}
                         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/90 transition-opacity group-hover:opacity-100" />
@@ -185,14 +190,14 @@ function ExperienciasContent() {
                             </div>
                           </div>
                           
-                          <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                          <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500 relative z-10">
                             <div className="flex items-center gap-1 text-[10px] font-bold text-primary mb-2 uppercase tracking-widest">
                               <MapPin className="w-3 h-3" /> <T>{exp.destination}</T>
                             </div>
                             <h3 className="text-2xl lg:text-3xl font-black tracking-tight text-white mb-4"><T>{exp.title}</T></h3>
                             <div className="flex items-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 h-0 group-hover:h-auto overflow-hidden">
                               <span className="text-2xl font-black text-white">{formatPrice(exp.price)}</span>
-                              <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1.5"><T>Desde</T></span>
+                              <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1.5"><T>por persona. IVA Incluido</T></span>
                             </div>
                           </div>
                         </div>

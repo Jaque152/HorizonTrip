@@ -58,7 +58,7 @@ export function Experiences() {
               <T>Desde escapes culinarios de unas horas hasta inmersiones totales en el Caribe. Tú decides la intensidad.</T>
             </p>
           </div>
-          <Link href={`/${locale}/catalogo`} className="hidden md:flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all uppercase tracking-widest text-xs">
+          <Link href={`/${locale}/experiencias`} className="hidden md:flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all uppercase tracking-widest text-xs">
             <T>Ver todas las rutas</T> <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

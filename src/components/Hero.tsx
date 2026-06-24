@@ -57,29 +57,6 @@ export function Hero() {
 
         {/* Lado Derecho: Widget de Destino */}
         <div className="w-full md:w-auto flex flex-col items-start md:items-end gap-8">
-          
-          {/* Tarjeta Glassmorphism mejorada (Fondo oscuro semitransparente) */}
-          <div className="p-5 rounded-3xl w-full sm:w-80 bg-black/20 backdrop-blur-md border border-white/10 shadow-2xl">
-            <p className="text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 text-white/70">
-              <T>Destino Destacado</T>
-            </p>
-            <div className="flex gap-4 items-center group cursor-pointer">
-              <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0 shadow-inner">
-                <img 
-                  src="https://images.pexels.com/photos/1640413/pexels-photo-1640413.jpeg" 
-                  alt="Tulum" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                />
-              </div>
-              <div>
-                <p className="font-black text-white text-lg leading-tight group-hover:text-primary transition-colors">Costa Esmeralda</p>
-                <div className="flex items-center gap-1 mt-1 text-sm text-white/80 font-medium">
-                  <MapPin className="w-3 h-3 text-primary" />
-                  <span>Oaxaca, México</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Indicador de Scroll Orgánico */}
           <div className="flex items-center gap-4 text-white/70 md:justify-end w-full cursor-pointer hover:text-white transition-colors mt-4">
