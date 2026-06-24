@@ -101,8 +101,8 @@ export default function ExperienceDetailPage() {
 
   const mainImage = experience.images?.length > 0 ? experience.images[0] : '/placeholder.jpg';
 
-  const WidgetForm = () => (
-    <div className="bg-foreground text-background border border-foreground/10 shadow-2xl rounded-[2.5rem] overflow-hidden sticky top-32">
+  const renderWidgetForm = () => (
+  <div className="bg-foreground text-background border border-foreground/10 shadow-2xl rounded-[2.5rem] overflow-hidden sticky top-32">
       <div className="p-8 lg:p-10">
         
         {/* Encabezado del Widget */}
@@ -123,9 +123,11 @@ export default function ExperienceDetailPage() {
               <label className="text-xs font-bold text-white/50 uppercase tracking-widest"><T>Destino Deseado</T></label>
               <Input 
                 type="text" 
+                name="customDestination"
                 value={customDestination} 
                 onChange={(e) => setCustomDestination(e.target.value)} 
                 placeholder={phDestino}
+                autoComplete="off"
                 className="rounded-xl h-14 bg-background/10 font-bold text-white border-none focus-visible:ring-primary px-4 placeholder:text-white/30" 
               />
             </div>
@@ -157,7 +159,7 @@ export default function ExperienceDetailPage() {
           disabled={!selectedDate || isAdding || (isPersonalized && !customDestination.trim())}
         >
           {isAdding ? <Loader2 className="animate-spin w-5 h-5 mr-3 inline" /> : null}
-          {isAdding ? <T>Integrando...</T> : <T>Añadir al Dossier</T>}
+          {isAdding ? <T>Integrando...</T> : <T>Añadir al Carrito</T>}
           {!isAdding && <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />}
         </Button>
       </div>
@@ -206,7 +208,7 @@ export default function ExperienceDetailPage() {
 
               {/* Layout Mobile: Widget debajo de la imagen */}
               <div className="lg:hidden w-full">
-                 <WidgetForm />
+                 {renderWidgetForm()}
               </div>
 
               {/* Descripción Editorial */}
@@ -275,7 +277,7 @@ export default function ExperienceDetailPage() {
 
             {/* COLUMNA DERECHA: Widget Sticky */}
             <div className="hidden lg:block lg:col-span-5 w-full">
-              <WidgetForm />
+              {renderWidgetForm()}
             </div>
             
           </div>

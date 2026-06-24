@@ -180,7 +180,8 @@ export async function POST(req: Request) {
     const primaryColor = '#0f4c3a'; // Verde Selva / Deep Jungle
     const accentColor = '#14b8a6'; // Turquesa
 
-    const isEnglish = locale === 'en';
+    const currentLocale = String(locale || 'es').toLowerCase();
+    const isEnglish = currentLocale.startsWith('en')
     const subjectClient = isEnglish 
       ? `Booking Confirmation - Thank you for traveling with HorizonTrip` 
       : `Confirmación de Reserva - Gracias por viajar con HorizonTrip`;

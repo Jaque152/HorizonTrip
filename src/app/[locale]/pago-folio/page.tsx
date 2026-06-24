@@ -23,7 +23,7 @@ export default function PagoFolioPage() {
   const [folio, setFolio] = useState("");
   const [fecha, setFecha] = useState("");
 
-  const btnConfirmar = useT("Añadir al Dossier");
+  const btnConfirmar = useT("Añadir al Carrito");
 
   const handleMontoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/[^0-9.]/g, ''); 
@@ -68,7 +68,7 @@ export default function PagoFolioPage() {
 
     addToCart(customExperienceItem);
     sessionStorage.setItem("explonix_temp_contact", JSON.stringify({ nombre, email, folio })); 
-    router.push(`/${locale}/checkout`);
+    router.push(`/${locale}/carrito`);
   };
 
   const minDate = new Date();

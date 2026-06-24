@@ -59,9 +59,9 @@ export function Contact() {
               <a href="mailto:hola@horizontrip.com.mx" className="block text-xl md:text-2xl font-black text-foreground hover:text-primary transition-colors tracking-tight">
                 hola@horizontrip.com.mx
               </a>
-              <a href="tel:+525555555555" className="block text-xl md:text-2xl font-black text-foreground hover:text-primary transition-colors tracking-tight">
+              {/* <a href="tel:+525555555555" className="block text-xl md:text-2xl font-black text-foreground hover:text-primary transition-colors tracking-tight">
                 +52 55 5555 5555
-              </a>
+              </a> */}
             </div>
           </div>
 

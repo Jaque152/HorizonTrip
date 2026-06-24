@@ -4,6 +4,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import type { CartItem, Cart } from "@/lib/types";
 
+
 interface CartContextType {
   cart: Cart;
   addToCart: (item: Omit<CartItem, "totalPrice">) => void;

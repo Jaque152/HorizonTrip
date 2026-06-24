@@ -142,8 +142,8 @@ export default function CarritoPage() {
                       <span className="text-background">{formatPrice(cart.total)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span><T>Gestión Concierge</T></span>
-                      <span className="text-background"><T>Incluida</T></span>
+                      <span><T>IVA</T></span>
+                      <span className="text-background"><T>Incluido</T></span>
                     </div>
                   </div>
 

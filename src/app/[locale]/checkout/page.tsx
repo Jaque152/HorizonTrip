@@ -222,11 +222,11 @@ function CheckoutContent() {
           {/* Panel Lateral: Resumen */}
           <div className="lg:col-span-5 xl:col-span-4">
             <div className="bg-white p-8 lg:p-10 sticky top-32 border border-border/50 shadow-2xl rounded-[2.5rem]">
-              <h2 className="text-xl font-black mb-8 text-foreground border-b border-border/50 pb-6 tracking-tight"><T>Resumen del Dossier</T></h2>
+              <h2 className="text-xl font-black mb-8 text-foreground border-b border-border/50 pb-6 tracking-tight"><T>Resumen del Carrito</T></h2>
               
               <div className="space-y-6 mb-10">
                 {cart.items.length === 0 ? (
-                  <p className="text-muted-foreground font-medium"><T>Tu dossier está vacío.</T></p>
+                  <p className="text-muted-foreground font-medium"><T>Tu carrito está vacío.</T></p>
                 ) : (
                   cart.items.map((item, index) => (
                     <div key={index} className="flex justify-between text-sm items-start gap-4">
