@@ -4,7 +4,6 @@ import { Experiences } from "@/components/Experiences";
 import { Pricing } from "@/components/Pricing";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
-import { FifaSection } from "@/components/FifaSection";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -17,7 +16,6 @@ export default async function Home({ params }: Props) {
       <Header />
       <Hero />
       <Experiences />
-      <FifaSection/>
       <Pricing />
       <Contact />
       <Footer />
