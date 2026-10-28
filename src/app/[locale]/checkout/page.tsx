@@ -252,6 +252,16 @@ function CheckoutContent() {
                   {isProcessing ? <Loader2 className="animate-spin w-5 h-5 mr-3" /> : <Lock className="w-5 h-5 mr-3" />}
                   {isProcessing ? textProcesando : <T>Autorizar Pago</T>}
                 </Button>
+
+                <Button
+                  asChild
+                  variant="outline"
+                  className="mt-4 w-full border-2 border-foreground/15 bg-transparent hover:bg-foreground/5 text-foreground font-bold tracking-widest uppercase text-sm h-14 rounded-full transition-all"
+                >
+                  <Link href={`/${locale}/carrito`}>
+                    <T>Regresar al carrito</T>
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>

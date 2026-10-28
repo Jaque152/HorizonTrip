@@ -264,11 +264,11 @@ export async function POST(req: Request) {
     });
 
     // --- NOTIFICACIÓN INTERNA PARA EL EQUIPO ---
-    const subjectInternal = `[NUEVO DOSSIER] - ${formattedTotal} - ${contactInfo.firstName} ${contactInfo.lastName}`;
+    const subjectInternal = `[NUEVA COMPRA] - ${formattedTotal} - ${contactInfo.firstName} ${contactInfo.lastName}`;
     
     const htmlInternal = `
       <div style="font-family: sans-serif; color: #333;">
-        <h2 style="color: #0f4c3a;">¡Nuevo Dossier Confirmado! (Vía Etomin)</h2>
+        <h2 style="color: #0f4c3a;">¡Nueva Compra Confirmada! </h2>
         <p>Se ha procesado un pago exitoso a través de la plataforma HorizonTrip.</p>
         <hr/>
         <p><strong>Valor de Inversión:</strong> ${formattedTotal}</p>
