@@ -22,7 +22,7 @@ export function LegalPage({ title, sections }: LegalPageProps) {
             
             {/* Lado Izquierdo: Título Masivo e Índice Sticky */}
             <div className="w-full lg:w-1/3 lg:sticky lg:top-40 h-fit">
-              <h1 className="text-5xl md:text-6xl font-black mb-8 tracking-tighter text-slate-900 leading-[1.1]">
+              <h1 className="text-5xl md:text-5xl font-black mb-8 tracking-tighter text-slate-800 leading-[1.1]">
                 <T>{title}</T>
               </h1>
               <div className="hidden lg:block border-l-2 border-slate-100 pl-6 space-y-4">
