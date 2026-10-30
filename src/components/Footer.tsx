@@ -78,8 +78,9 @@ export function Footer() {
           
           <div className="flex flex-col gap-4 text-right items-start lg:items-end w-full lg:w-auto">
             <div className="flex gap-6 uppercase tracking-widest font-bold">
-              <Link href={`/${locale}/aviso-de-privacidad`} className="hover:text-white transition-colors"><T>Privacidad</T></Link>
-              <Link href={`/${locale}/terminos-y-condiciones`} className="hover:text-white transition-colors"><T>Términos</T></Link>
+              <Link href={`/${locale}/aviso-de-privacidad`} className="hover:text-white transition-colors"><T>Política y aviso integral de privacidad</T></Link>
+              <Link href={`/${locale}/terminos-y-condiciones`} className="hover:text-white transition-colors"><T>Términos y condiciones generales de contratación</T></Link>
+              <Link href={`/${locale}/politica-de-cancelacion`} className="hover:text-white transition-colors"><T>Política de cancelaciones</T></Link>
             </div>
             <p>
               © {new Date().getFullYear()} HorizonTrip. <T>Todos los derechos reservados.</T>
